@@ -3,12 +3,12 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
+      <li><a href="https://vuejs.org" target="_blank">官方文档</a></li>
+      <li><a href="https://forum.vuejs.org" target="_blank">论坛</a></li>
+      <li><a href="https://chat.vuejs.org" target="_blank">社区</a></li>
       <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
       <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
+      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">文档&模版</a></li>
     </ul>
     <h2>Ecosystem</h2>
     <ul>
