@@ -1,7 +1,7 @@
 'use strict'
 // Template version: 1.2.7
 // see http://vuejs-templates.github.io/webpack for documentation.
-//配置文件可以修改启动端口号
+
 const path = require('path')
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-
+    
     /**
      * Source Maps
      */
