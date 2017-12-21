@@ -5,13 +5,19 @@ import App from './App'
 // import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+//import '../static/css/theme-green/index.css';       // 浅绿色主题
 import locale from 'element-ui/lib/locale/lang/en'
 import router from './router'
+//vuex
+import store from './store'
+
 
 Vue.use(ElementUI)
 Vue.use(ElementUI, { locale })
+//初始化router，store
 new Vue({
   router,
+  store,
   el: '#app',
   render: (h) => h(App)
 })

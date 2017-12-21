@@ -81,9 +81,11 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
+            //通过$store.dispatch 分发一个 store 里注册的action
             this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
               this.loading = false
-              this.$router.push({ path: '/' })
+              //跳转路由
+              this.$router.push({ path: '/home' })
               // this.showDialog = true
             }).catch(() => {
               this.loading = false
