@@ -1,18 +1,16 @@
 import request from '@/utils/request'
 /**
  * 登陆请求
- * @param username
- * @param password
+ * @param username 用户名
+ * @param password 密码
  */
 export function loginByUsername(username, password) {
-  const data = {
-    username,
-    password
-  }
+  const data = {mobileNumber:username, password: password}
+  //相当于ajax请求 参数不是data 是 params
   return request({
-    url: API.LOGIN,
+    url: GLOBAL.API.LOGIN,
     method: 'post',
-    data
+    params : data
   })
 }
 /**
@@ -32,6 +30,6 @@ export function getUserInfo(token) {
   return request({
     url: '/user/info',
     method: 'get',
-    params: { token }
+    params: {token}
   })
 }

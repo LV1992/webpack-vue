@@ -1,6 +1,5 @@
 import { loginByUsername, logout, getUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
 const user = {
   state: {
     user: '',
@@ -44,20 +43,26 @@ const user = {
   },
 
   actions: {
-    // 用户名登录
+    // 用户名登录方法
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         //请求login接口
         loginByUsername(username, userInfo.password).then(response => {
+          //返回结果
           const data = response.data
-          //把token放入
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
-          //登陆成功
-          resolve()
+          if(data && data.success){
+            //把token放入
+            commit('SET_TOKEN', data.token)
+            setToken(response.data.token)
+            //登陆成功
+            resolve()
+          }else {
+            //把响应结果返回
+            reject(data)
+          }
         }).catch(error => {
-          //灯枯拒绝
+          //登录拒绝
           reject(error)
         })
       })

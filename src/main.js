@@ -12,7 +12,7 @@ import router from './router'
 import store from './store'
 //接口地址 使用：this.$API
 import API from './api/api'
-window.API = API
+window.GLOBAL = API
 
 Vue.use(ElementUI)
 Vue.use(ElementUI, { locale })
