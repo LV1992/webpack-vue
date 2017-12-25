@@ -10,7 +10,7 @@ export function loginByUsername(username, password) {
     password
   }
   return request({
-    url: '/login/login',
+    url: API.LOGIN,
     method: 'post',
     data
   })

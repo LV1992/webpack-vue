@@ -10,7 +10,9 @@ import locale from 'element-ui/lib/locale/lang/en'
 import router from './router'
 //vuex
 import store from './store'
-
+//接口地址 使用：this.$API
+import API from './api/api'
+window.API = API
 
 Vue.use(ElementUI)
 Vue.use(ElementUI, { locale })

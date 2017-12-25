@@ -48,15 +48,18 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        resolve()
-        // loginByUsername(username, userInfo.password).then(response => {
-        //   const data = response.data
-        //   commit('SET_TOKEN', data.token)
-        //   setToken(response.data.token)
-        //   resolve()
-        // }).catch(error => {
-        //   reject(error)
-        // })
+        //请求login接口
+        loginByUsername(username, userInfo.password).then(response => {
+          const data = response.data
+          //把token放入
+          commit('SET_TOKEN', data.token)
+          setToken(response.data.token)
+          //登陆成功
+          resolve()
+        }).catch(error => {
+          //灯枯拒绝
+          reject(error)
+        })
       })
     },
 
