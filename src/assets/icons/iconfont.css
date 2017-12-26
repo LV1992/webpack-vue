@@ -1,10 +1,11 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1514196256647'); /* IE9*/
-  src: url('iconfont.eot?t=1514196256647#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  /*需要使用相对路径，否则无法访问*/
+  src: url('../../assets/icons/iconfont.eot?t=1514196256647'); /* IE9*/
+  src: url('../../assets/icons/iconfont.eot?t=1514196256647#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
-  url('iconfont.ttf?t=1514196256647') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1514196256647#iconfont') format('svg'); /* iOS 4.1- */
+  url('../../assets/icons/iconfont.ttf?t=1514196256647') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('../../assets/icons/iconfont.svg?t=1514196256647#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -21,7 +22,7 @@
 /**
 font-family:"iconfont"  [class^="el-icon-my"], [class*=" el-icon-my"]  改为和iconfont官网设置一值
  */
-[class^="el-icon-my"], [class*=" el-icon-my"] {
+[class^=" el-icon-my"], [class*=" el-icon-my"] {
   font-family:"iconfont" !important;
   /* 以下内容参照第三方图标库本身的规则 */
   font-size: 18px;

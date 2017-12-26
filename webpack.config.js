@@ -23,6 +23,11 @@ module: {
     {
       test: /\.(png|jpg|gif)$/,
       loader:'url-loader?limit=8192'
+    },
+    //字体解析
+    {
+      test: /\.(eot|svg|ttf|woff|woff2)$/,
+      loader: 'file-loader'
     }
   ]
 },

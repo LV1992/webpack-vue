@@ -9,12 +9,14 @@
         <el-form-item prop="password">
           <el-input :type="pwdType" v-model="ruleForm.password" placeholder="密码" autoComplete="on"
                     @keyup.enter.native="submitForm('ruleForm')"></el-input>
-          <span style=" position: absolute; top: 14px; left: 276px;" class="el-icon-view" @click="showPwd"></span>
+          <!--给组件绑定原生事件 @click.native-->
+          <icon :iconName="eyeIcon" @click.native="showPwd" />
+          <!--<span style=" position: absolute; top: 14px; left: 276px;" class="el-icon-view" @click="showPwd"></span>-->
         </el-form-item>
         <div class="login-btn">
           <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">登录</el-button>
         </div>
-        <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+        <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名为手机号。</p>
       </el-form>
     </div>
   </div>
@@ -53,7 +55,8 @@
           ]
         },
         loading: false,
-        pwdType: 'password'
+        pwdType: 'password',
+        eyeIcon: 'bl44ceye'
       }
     },
     methods: {
@@ -83,9 +86,11 @@
       },
       showPwd() {
         if (this.pwdType === 'password') {
-          this.pwdType = ''
+          this.pwdType = '';
+          this.eyeIcon = 'ion-eye';
         } else {
           this.pwdType = 'password'
+          this.eyeIcon = 'bl44ceye';
         }
       },
     }
@@ -129,5 +134,12 @@
   .login-btn button {
     width: 100%;
     height: 36px;
+  }
+
+  [class$="bl44ceye"], [class$="ion-eye"] {
+    position: absolute;
+    top: 13px;
+    left: 15em;
+    cursor: pointer;
   }
 </style>
