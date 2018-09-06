@@ -51,6 +51,7 @@ const user = {
         loginByUsername(username, userInfo.password).then(response => {
           //返回结果
           const data = response.data
+          console.log(data)
           if(data && data.success){
             //把token放入
             commit('SET_TOKEN', data.token)
@@ -81,6 +82,21 @@ const user = {
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    // 第三方验证登录
+    ThirdLoginGetQrCode({ commit, state }, code) {
+      return new Promise((resolve, reject) => {
+        //ajaxa请求获取二维码
+        thirdLoginGetQrCode(state.status, state.email, state.code).then(response => {
+          //返回结果
+          const data = response.data
+          console.log(data)
+          resolve()
         }).catch(error => {
           reject(error)
         })

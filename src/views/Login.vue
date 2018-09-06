@@ -4,7 +4,7 @@
     <div class="ms-login">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
         <el-form-item prop="username">
-          <el-input v-model="ruleForm.username" placeholder="账号" autoComplete="on"></el-input>
+          <el-input v-model="ruleForm.username" placeholder="用户名为手机号" autoComplete="on"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input :type="pwdType" v-model="ruleForm.password" placeholder="密码" autoComplete="on"
@@ -16,8 +16,15 @@
         <div class="login-btn">
           <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">登录</el-button>
         </div>
-        <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名为手机号。</p>
+
+        <p class="third-login-btn" @click="thirdLogin()">打开第三方登录</p>
       </el-form>
+
+      <el-dialog title="第三方验证" :visible.sync="showDialog">
+            <div>{{qrcode}}<img class="src" :src="qrcode" /></div>
+            <div>邮箱登录成功,请选择第三方验证</div>
+            <!--<social-sign />-->
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -56,7 +63,9 @@
         },
         loading: false,
         pwdType: 'password',
-        eyeIcon: 'bl44ceye'
+        eyeIcon: 'bl44ceye',
+        showDialog : false,
+        qrcode : ''
       }
     },
     methods: {
@@ -93,7 +102,25 @@
           this.eyeIcon = 'bl44ceye';
         }
       },
-    }
+       thirdLogin(){
+          this.showDialog=true;
+          //提交请求 .then 登录成功 resolve() .catch 登录失败 reject(data) ()=>{} == function(){}
+                      this.$store.dispatch('ThirdLoginGetQrCode').then((data) => {
+                          this.qrcode = data.result.image
+                      }).catch((e) => {
+                        this.$message({
+                          message: e.errorMsg,
+                          type: 'warning'
+                        });
+                      });
+       }
+           },
+           created() {
+              window.addEventListener('hashchange', this.afterQRScan)
+           },
+           destroyed() {
+              window.removeEventListener('hashchange', this.afterQRScan)
+           }
   }
 </script>
 
@@ -142,4 +169,5 @@
     left: 15em;
     cursor: pointer;
   }
+  .third-login-btn{font-size:12px;line-height:30px;color:#999;cursor:pointer;}
 </style>

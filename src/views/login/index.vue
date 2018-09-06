@@ -19,11 +19,12 @@
         <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
 
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">登录方式1</el-button>
 
       <div class="tips">账号:admin 密码随便填</div>
       <div class="tips">账号:editor  密码随便填</div>
 
+      <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名为手机号。</p>
       <el-button class="thirdparty-button" type="primary" @click="showDialog=true">打开第三方登录</el-button>
     </el-form>
 
@@ -85,7 +86,7 @@
             this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
               this.loading = false
               //跳转路由
-              this.$router.push({ path: '/home' })
+              this.$router.push({ path: '/' })
               // this.showDialog = true
             }).catch(() => {
               this.loading = false
@@ -97,30 +98,75 @@
         })
       },
       afterQRScan() {
-        // const hash = window.location.hash.slice(1)
-        // const hashObj = getQueryObject(hash)
-        // const originUrl = window.location.origin
-        // history.replaceState({}, '', originUrl)
-        // const codeMap = {
-        //   wechat: 'code',
-        //   tencent: 'code'
-        // }
-        // const codeName = hashObj[codeMap[this.auth_type]]
-        // if (!codeName) {
-        //   alert('第三方登录失败')
-        // } else {
-        //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-        //     this.$router.push({ path: '/' })
-        //   })
-        // }
+         const hash = window.location.hash.slice(1)
+         const hashObj = getQueryObject(hash)
+         const originUrl = window.location.origin
+         history.replaceState({}, '', originUrl)
+         const codeMap = {
+           wechat: 'code',
+           tencent: 'code'
+         }
+         const codeName = hashObj[codeMap[this.auth_type]]
+         if (!codeName) {
+           alert('第三方登录失败')
+         } else {
+           this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
+             this.$router.push({ path: '/' })
+           })
+         }
       }
     },
     created() {
-      // window.addEventListener('hashchange', this.afterQRScan)
+       window.addEventListener('hashchange', this.afterQRScan)
     },
     destroyed() {
-      // window.removeEventListener('hashchange', this.afterQRScan)
+       window.removeEventListener('hashchange', this.afterQRScan)
     }
   }
 </script>
+<style scoped>
+  .login-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
+  .ms-title {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: -230px;
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+
+  }
+
+  .ms-login {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 160px;
+    margin: -150px 0 0 -190px;
+    padding: 40px;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .login-btn {
+    text-align: center;
+  }
+
+  .login-btn button {
+    width: 100%;
+    height: 36px;
+  }
+
+  [class$="bl44ceye"], [class$="ion-eye"] {
+    position: absolute;
+    top: 13px;
+    left: 15em;
+    cursor: pointer;
+  }
+</style>

@@ -9,7 +9,7 @@ import locale from 'element-ui/lib/locale/lang/en'
 import router from './router'
 //vuex
 import store from './store'
-//接口地址 使用：this.$API
+//接口地址 使用：GLOBAL.API.*
 import API from './api/api'
 //icon组件
 import Icon from './components/index'

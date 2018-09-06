@@ -4,6 +4,7 @@
  */
 const API = {
   LOGIN: 'user/login',
+  THIRD_LOGIN: 'user/login',
   GET_USER_PERMISSION: 'permission/getPermissionsByUserId'
 }
 

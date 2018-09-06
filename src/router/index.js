@@ -64,6 +64,10 @@ export const routes = [
     path: '/login',
     component: resolve => require(['../views/Login.vue'], resolve)
   },
+  // {
+  //   path: '/login',
+  //   component: resolve => require(['../views/login/index.vue'], resolve)
+  // },
   {   //登录页面
     path: '/welcome',
     name: 'login',
