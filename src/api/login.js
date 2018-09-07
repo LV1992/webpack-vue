@@ -39,8 +39,9 @@ export function getUserInfo(token) {
  * @param password 密码
  */
 export function thirdLoginGetQrCode(mobile, password) {
+
   return request({
-    url: GLOBAL.API.THIRD_LOGIN,
+    url: GLOBAL.API.THIRD_LOGIN_GET_QRCODE,
     method: 'post',
     params : data
   })

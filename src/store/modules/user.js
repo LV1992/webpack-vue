@@ -1,4 +1,4 @@
-import { loginByUsername, logout, getUserInfo } from '@/api/login'
+import { loginByUsername, logout, getUserInfo,thirdLoginGetQrCode } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
   state: {
@@ -89,15 +89,19 @@ const user = {
     },
 
     // 第三方验证登录
-    ThirdLoginGetQrCode({ commit, state }, code) {
+    ThirdLoginGetQrCode({ commit, state }) {
       return new Promise((resolve, reject) => {
         //ajaxa请求获取二维码
-        thirdLoginGetQrCode(state.status, state.email, state.code).then(response => {
+        thirdLoginGetQrCode(state.status).then(response => {
+          debugger
+          console.log(response)
           //返回结果
           const data = response.data
           console.log(data)
           resolve()
         }).catch(error => {
+          debugger
+          console.log(error)
           reject(error)
         })
       })

@@ -105,22 +105,25 @@
        thirdLogin(){
           this.showDialog=true;
           //提交请求 .then 登录成功 resolve() .catch 登录失败 reject(data) ()=>{} == function(){}
-                      this.$store.dispatch('ThirdLoginGetQrCode').then((data) => {
-                          this.qrcode = data.result.image
-                      }).catch((e) => {
-                        this.$message({
-                          message: e.errorMsg,
-                          type: 'warning'
-                        });
-                      });
+          this.$store.dispatch('ThirdLoginGetQrCode').then(res => {
+          debugger
+          console.log(res)
+               this.qrcode = res.data.result.image
+          }).catch((e) => {
+            console.log(e)
+               this.$message({
+               message: e.errorMsg,
+               type: 'warning'
+               });
+          });
        }
-           },
-           created() {
-              window.addEventListener('hashchange', this.afterQRScan)
-           },
-           destroyed() {
-              window.removeEventListener('hashchange', this.afterQRScan)
-           }
+     },
+     created() {
+          window.addEventListener('hashchange', this.afterQRScan)
+     },
+     destroyed() {
+          window.removeEventListener('hashchange', this.afterQRScan)
+     }
   }
 </script>
 
