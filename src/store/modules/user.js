@@ -1,5 +1,6 @@
 import { loginByUsername, logout, getUserInfo,thirdLoginGetQrCode } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import {websocket} from "../../api/login";
 const user = {
   state: {
     user: '',
@@ -70,7 +71,7 @@ const user = {
     },
 
     // 获取用户信息
-    GetUserInfo({ commit, state }) {
+    GetUserInfo({state}) {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(response => {
           if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
@@ -89,16 +90,14 @@ const user = {
     },
 
     // 第三方验证登录
-    ThirdLoginGetQrCode({ commit, state }) {
+    ThirdLoginGetQrCode() {
       return new Promise((resolve, reject) => {
         //ajaxa请求获取二维码
-        thirdLoginGetQrCode(state.status).then(response => {
-          debugger
-          console.log(response)
+        thirdLoginGetQrCode().then(response => {
           //返回结果
           const data = response.data
           console.log(data)
-          resolve()
+          resolve(data)
         }).catch(error => {
           debugger
           console.log(error)

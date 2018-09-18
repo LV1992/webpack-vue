@@ -57,6 +57,10 @@ export const routes = [
       {
         path: '/drag',
         component: resolve => require(['../views/DragList.vue'], resolve)    // 拖拽列表组件
+      },
+      {
+        path: '/chat',
+        component: resolve => require(['../views/Chat.vue'], resolve)    // 聊天页面
       }
     ]
   },

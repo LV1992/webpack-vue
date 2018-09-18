@@ -35,14 +35,11 @@ export function getUserInfo(token) {
 }
 /**
  * 第三方登录获取验证码
- * @param mobile 手机号
- * @param password 密码
  */
-export function thirdLoginGetQrCode(mobile, password) {
+export function thirdLoginGetQrCode() {
 
   return request({
     url: GLOBAL.API.THIRD_LOGIN_GET_QRCODE,
-    method: 'post',
-    params : data
+    method: 'get'
   })
 }

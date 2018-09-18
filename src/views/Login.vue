@@ -21,7 +21,7 @@
       </el-form>
 
       <el-dialog title="第三方验证" :visible.sync="showDialog">
-            <div>{{qrcode}}<img class="src" :src="qrcode" /></div>
+            <div><img class="src" :src="qrcode" /></div>
             <div>邮箱登录成功,请选择第三方验证</div>
             <!--<social-sign />-->
       </el-dialog>
@@ -105,12 +105,48 @@
        thirdLogin(){
           this.showDialog=true;
           //提交请求 .then 登录成功 resolve() .catch 登录失败 reject(data) ()=>{} == function(){}
+          var socket ;
+          if(typeof(WebSocket) == "undefined"){
+              console.log("您的浏览器不支持WebSocket");
+          }
+
+          socket = new WebSocket("ws://localhost:8008/user/websocket");
+          			//打开事件
+          			socket.onopen = function() {
+          				console.log("Socket 已打开");
+          				//socket.send("这是来自客户端的消息" + location.href + new Date());
+          			}
+          			//获得消息事件
+          			socket.onmessage = function(msg) {
+          				console.log(msg.data);
+          				//发现消息进入    调后台获取
+          				//getCallingList();
+          			}
+          			//关闭事件
+          			socket.onclose = function() {
+          				console.log("Socket已关闭");
+          			}
+          			//发生了错误事件
+          			socket.onerror = function() {
+          				alert("Socket发生了错误");
+          			}
+          			//$(window).unload(function(){
+          			// socket.close();
+          			//});
+
+          //                            		$("#btnSend").click(function() {
+          //                            			socket.send("这是来自客户端的消息" + location.href + new Date());
+          //                            		});
+          //
+          //                            		$("#btnClose").click(function() {
+          //                            			socket.close();
+          //                            		});
+
+
           this.$store.dispatch('ThirdLoginGetQrCode').then(res => {
           debugger
-          console.log(res)
-               this.qrcode = res.data.result.image
+               this.qrcode = 'data:image/png;base64,' + res.image
           }).catch((e) => {
-            console.log(e)
                this.$message({
                message: e.errorMsg,
                type: 'warning'

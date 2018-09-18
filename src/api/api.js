@@ -4,6 +4,7 @@
  */
 const API = {
   LOGIN: 'user/login',
+  WEB_SOCKET: 'user/websocket',
   THIRD_LOGIN: 'user/login',
   THIRD_LOGIN_GET_QRCODE: 'common/getQrCode',
   GET_USER_PERMISSION: 'permission/getPermissionsByUserId'

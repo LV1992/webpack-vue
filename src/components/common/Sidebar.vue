@@ -77,6 +77,11 @@
                         icon: 'el-icon-upload2',
                         index: 'drag',
                         title: '拖拽'
+                    },
+                    {
+                        icon: 'el-icon-message',
+                        index: 'chat',
+                        title: 'websocket聊天'
                     }
                 ]
             }
