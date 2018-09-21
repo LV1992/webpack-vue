@@ -6,7 +6,7 @@ const user = {
     user: '',
     status: '',
     code: '',
-    token: getToken(),
+    token: getToken('session'),
     name: '',
     avatar: '',
     introduction: '',
@@ -52,11 +52,11 @@ const user = {
         loginByUsername(username, userInfo.password).then(response => {
           //返回结果
           const data = response.data
-          console.log(data)
           if(data && data.success){
             //把token放入
-            commit('SET_TOKEN', data.token)
-            setToken(response.data.token)
+            commit('SET_TOKEN', data.result)
+            //存localStorage
+            setToken('session',JSON.stringify(data.result))
             //登陆成功
             resolve()
           }else {
@@ -69,7 +69,6 @@ const user = {
         })
       })
     },
-
     // 获取用户信息
     GetUserInfo({state}) {
       return new Promise((resolve, reject) => {
@@ -99,7 +98,6 @@ const user = {
           console.log(data)
           resolve(data)
         }).catch(error => {
-          debugger
           console.log(error)
           reject(error)
         })
@@ -123,10 +121,15 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        const session = user.state.token
+        if (session == null){
+          resolve()
+        }
+        debugger
+        logout(session.sessionKey).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          removeToken()
+          removeToken('session')
           resolve()
         }).catch(error => {
           reject(error)

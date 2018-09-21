@@ -6,11 +6,21 @@
             </el-breadcrumb>
         </div>
 
-        <el-form class="plugins-tips" ref="form" :model="form" label-width="80px">
-             <el-form-item label="文本框">
-                 <el-input type="textarea" :placeholder="form.placeholder" :model="form.sendMsg"></el-input>
-             </el-form-item>
-             <el-form-item>
+        <el-form ref="form" label-width="80px">
+            <el-row :gutter="12" v-for="msg in msgList ">
+              <div>
+              <div class="time">{{ msg.title }}</div>
+              <el-col class="chat-content" :span="12">
+                  <el-card shadow="always">
+                    <div>{{msg.message}}</div>
+                  </el-card>
+              </el-col>
+              </div>
+            </el-row>
+
+             <el-input style="margin: 10px" type="textarea" :placeholder="form.placeholder" v-model="form.sendMsg"></el-input>
+
+             <el-form-item style="width: 250px;margin: auto">
              <el-button type="primary" @click="onSubmit" >提交</el-button>
                  <el-button>取消</el-button>
              </el-form-item>
@@ -23,50 +33,109 @@
         data: function(){
             return {
                 src: './static/img/img.jpg',
-                fileList: [],
-                form:{placeholder:'请输入',sendMsg:''}
+                msgList: [],
+                form:{placeholder:'请输入',sendMsg:''},
+                socket: null,
+                msg:{},
+                session: null
             }
         },
-        components: {
+        created: function(){
+          // `this` 指向 vm 实例
+          const session = JSON.parse(localStorage.getItem('session'));
+          this.session = session
+          this.socket = new WebSocket("ws://localhost:8008/user/websocket/"+session.sessionKey);
+        },
+        destroyed: function(){
+          this.socket.close();
+          //关闭事件
+          this.socket.onclose = function() {
+             console.log("Socket已关闭");
+          }
+        },
+        mounted : function(){
+          debugger
+          const self = this
+          //获得消息事件
+          this.socket.onmessage = function(msg) {
+              console.log(msg.data);
+              self.msgList.push({message:JSON.parse(msg.data).msg,title:new Date()});
+              //发现消息进入    调后台获取
+             //getCallingList();
+          }
         },
         methods:{
             onSubmit() {
-            debugger
                 if(this.form.sendMsg == ''){
-            debugger
-                      this.$notify.error({
-                                    title: '发送消息失败',
-                                    message: '发送的消息不可为空'
-                                });
+                      this.$message({
+                      message: '发送消息失败,发送的消息不可为空',
+                      type: 'error'
+                      });
                 }else{
-            debugger
-                this.$notify.error({
-                                                    title: '发送消息成功',
-                                                    message: self.form.sendMsg
-                                                });
+                            if(typeof(WebSocket) == "undefined"){
+                                console.log("您的浏览器不支持WebSocket");
+                            }
+                            this.msg = {title:'',msg:this.form.sendMsg,isSendAll:false,toUserId:1000,sessionKey:this.session.sessionKey}
+
+                            			this.socket.send(JSON.stringify(this.msg));
+                             const self = this
+                            			//打开事件
+                            			this.socket.onopen = function() {
+                            				console.log("Socket 已打开");
+                            				//socket.send("这是来自客户端的消息" + location.href + new Date());
+                            			}
+                                            //关闭事件
+                                            this.socket.onclose = function() {
+                                               console.log("Socket已关闭");
+                                            }
+
+                            			//获得消息事件
+                            			this.socket.onmessage = function(msg) {
+                            				console.log(msg.data);
+                            				self.msgList.push({message:JSON.parse(msg.data).msg,title:new Date()});
+                            				//发现消息进入    调后台获取
+                            				//getCallingList();
+                            			}
+
+                            			//发生了错误事件
+                            			this.socket.onerror = function() {
+                            				this.$notify.error({
+                                                      title: '发送消息失败',
+                                                      message: 'Socket发生了错误'
+                                                    });
+                            			}
+                            			//$(window).unload(function(){
+                            			// socket.close();
+                            			//});
+
+                            //                            		$("#btnClose").click(function() {
+                            //                            			socket.close();
+                            //                            		});
+
+
+              this.$message({
+                    message: '发送消息成功',
+                    type: 'success'
+              });
+
+              self.msgList.push({message:this.form.sendMsg,title:new Date()});
+
                 }
-            },
-            handleError(){
-                this.$notify.error({
-                    title: '上传失败',
-                    message: '图片上传接口上传失败，可更改为自己的服务器接口'
-                });
             }
         }
     }
 </script>
 
 <style scoped>
-    .content-title{
-        font-weight: 400;
-        line-height: 50px;
+.time {
+    font-size: 13px;
+    color: #999;
+}
+.chat-content{
         margin: 10px 0;
-        font-size: 22px;
+        width: auto;
+        max-width: 100%;
         color: #1f2f3d;
-    }
-    .pre-img{
-        width:250px;
-        height: 250px;
-        margin-bottom: 20px;
-    }
+}
+.el-car{word-break: break-word;}
 </style>

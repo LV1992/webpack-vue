@@ -31,7 +31,10 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                     localStorage.removeItem('ms_username')
-                    this.$router.push('/login');
+                    //提交请求 this.$store.dispatch().then 登录成功 resolve() .catch 登录失败 reject(data) ()=>{} == function(){}
+                    this.$store.dispatch('LogOut').then(()=>{
+                        this.$router.push('/login');
+                    });
                 }
             }
         }

@@ -16,10 +16,10 @@ export function loginByUsername(mobile, password) {
 /**
  * 退出登录
  */
-export function logout() {
+export function logout(uid) {
   return request({
-    url: '/login/logout',
-    method: 'post'
+    url: GLOBAL.API.LOGOUT+'/'+uid,
+    method: 'post',
   })
 }
 /**
