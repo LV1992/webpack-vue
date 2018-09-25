@@ -125,7 +125,6 @@ const user = {
         if (session == null){
           resolve()
         }
-        debugger
         logout(session.sessionKey).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])

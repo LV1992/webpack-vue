@@ -18,12 +18,13 @@
     export default {
         data() {
             return {
-                name: 'linxin'
+                name: '--'
             }
         },
         computed:{
             username(){
-                let username = localStorage.getItem('ms_username');
+                let session = JSON.parse(localStorage.getItem('session'))
+                let username = session.mobile;
                 return username ? username : this.name;
             }
         },

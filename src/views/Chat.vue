@@ -8,14 +8,21 @@
 
         <el-form ref="form" label-width="80px">
             <el-row :gutter="12" v-for="msg in msgList ">
-              <div>
+
+              <div :span="12" v-if="msg.sendBy === 'me'">
               <div class="time">{{ msg.title }}</div>
-              <el-col class="chat-content" :span="12">
-                  <el-card shadow="always">
+                  <el-card class="chat-content-me">
                     <div>{{msg.message}}</div>
                   </el-card>
-              </el-col>
               </div>
+
+              <div :span="12" v-if="msg.sendBy === 'other'">
+              <div class="time">{{ msg.title }}</div>
+                  <el-card class="chat-content-other" shadow="always">
+                    <div>{{msg.message}}</div>
+                  </el-card>
+              </div>
+
             </el-row>
 
              <el-input style="margin: 10px" type="textarea" :placeholder="form.placeholder" v-model="form.sendMsg"></el-input>
@@ -54,12 +61,15 @@
           }
         },
         mounted : function(){
-          debugger
           const self = this
           //获得消息事件
           this.socket.onmessage = function(msg) {
               console.log(msg.data);
-              self.msgList.push({message:JSON.parse(msg.data).msg,title:new Date()});
+              const data = JSON.parse(msg.data)
+              self.$message({
+                                  message: data.msg,
+                                  type: 'success'
+                            });
               //发现消息进入    调后台获取
              //getCallingList();
           }
@@ -82,7 +92,6 @@
                             			//打开事件
                             			this.socket.onopen = function() {
                             				console.log("Socket 已打开");
-                            				//socket.send("这是来自客户端的消息" + location.href + new Date());
                             			}
                                             //关闭事件
                                             this.socket.onclose = function() {
@@ -92,7 +101,7 @@
                             			//获得消息事件
                             			this.socket.onmessage = function(msg) {
                             				console.log(msg.data);
-                            				self.msgList.push({message:JSON.parse(msg.data).msg,title:new Date()});
+                            				self.msgList.push({message:JSON.parse(msg.data).msg,title:new Date(),sendBy: 'other'});
                             				//发现消息进入    调后台获取
                             				//getCallingList();
                             			}
@@ -118,7 +127,7 @@
                     type: 'success'
               });
 
-              self.msgList.push({message:this.form.sendMsg,title:new Date()});
+              self.msgList.push({message:this.form.sendMsg,title:new Date(),sendBy: 'me'});
 
                 }
             }
@@ -131,11 +140,17 @@
     font-size: 13px;
     color: #999;
 }
-.chat-content{
+
+.chat-content-me{
+        margin: 10px 0;
+        max-width: 100%;
+        background-color: #67C23A;
+}
+
+.chat-content-other{
         margin: 10px 0;
         width: auto;
         max-width: 100%;
-        color: #1f2f3d;
 }
 .el-car{word-break: break-word;}
 </style>
