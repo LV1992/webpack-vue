@@ -35,7 +35,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    //不允许检查域名（通过代理也可访问）
+    disableHostCheck : true
   },
   plugins: [
     new webpack.DefinePlugin({
